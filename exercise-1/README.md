@@ -182,6 +182,17 @@ int my_sock = socket(res->ai_family,
 - What happens when you iterate a pointer?
 - What are the most important safety tips to know when using pointers?
 
+### Answers
+- `inet_pton` is being called to convert the server address from string format to binary format. The first argument `AF_INET` specifies that the address is an IPv4 address, the second argument is the server address in string format, and the third argument is a pointer to a buffer where the converted address will be stored. If the conversion is successful, positive value is returned.
+- `connect` is being called to connect the socket to the server. The first argument is the socket file descriptor of the client, the rest of the arguments are for specifying the address of the server to connect to.
+- A pointer is a variable that holds the memory address of another variable, while a reference is an alias for another variable. A pointer can be reassigned to point to different variables, while a reference cannot be changed after it is initialized. Also, references must be always initialized when they are declared, while pointers can be declared without being initialized.
+- It is better to use a pointer when we need to have the ability to reassign it to point to different variables, of when we need to represent the absence of a value (using a null pointer). It is also better to use pointers when we are working with arrays or when we need to perform pointer arithmetic.
+- It is better to use a reference when we want to create an alias for another variable and we don't need to reassign it to point to different variables. References are also generally safer and easier to use than pointers, because they cannot be null and they cannot be accidentally dereferenced.
+- `std::string` provides a convenient and safe way to work with strings. It manages memory automatically and also provides us with some common methods for string manipulation. A C-style string is just an array of characters that are null-terminated. Memory is not managed automatically and size is not adjusted automatically, so we need to be careful with memory issues.
+- A C-style string is of type `const char*`, it is a pointer to the first character of the string. The string ends with a null character (`'\0'`).
+- When we iterate a pointer, we point to the next memory location which is determined by the size of the type that the pointer is pointing to. It is not guaranteed that the next memory location is valid or that it contains the data we are expecting, so we need to be careful to avoid accessing invalid memory.
+- When dereferencing pointers, we need to make sure that the pointer is not null. We also need to be careful with pointer arithmetic to avoid accessing memory that is out of bounds. Most often, iterators are a safer alternative to pointers. When working with pointers for memory that is dynamically allocated, we need to make sure to free the memory to avoid memory leaks.
+
 ## Learn Basics of Creating a C++ Project in Your IDE
 
 - How do you compile and run your project in your IDE?
