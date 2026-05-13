@@ -16,10 +16,18 @@ int main(int argc, char *argv[])
   if (argc > 1)
     message = argv[1];
 
+  // not taking the const qualifier into account,
+  // kPort has type int which is the same type as 8080
   const int kPort = 8080;
+
+  // As discussed before, kServerAddress has type std::string
+  // but "127.0.0.1" has type const char* which is a pointer to a constant character array.
   const std::string kServerAddress = "127.0.0.1";
   sockaddr_in address;
   const int kBufferSize = 1024;
+
+  // the array buffer is zero-initialized, but the type of 0
+  // is not the same as the type of the elements of the array.
   char buffer[kBufferSize] = {0};
   // Creating socket file descriptor
   int my_sock = socket(AF_INET, SOCK_STREAM, 0);
