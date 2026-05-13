@@ -4,7 +4,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-int main() {
+int main()
+{
   const int kPort = 8080;
   sockaddr_in address;
   socklen_t addrlen = sizeof(address);
@@ -13,13 +14,15 @@ int main() {
   int my_sock;
   int opt = 1;
   // Creating socket file descriptor
-  if ((my_sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+  if ((my_sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+  {
     std::cerr << "Socket creation erron\n";
     return -1;
   }
   // Attaching socket to port
   if (setsockopt(my_sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt,
-                 sizeof(opt))) {
+                 sizeof(opt)))
+  {
     std::cerr << "setsockopt error\n";
     return -1;
   }
@@ -27,21 +30,25 @@ int main() {
   address.sin_addr.s_addr = INADDR_ANY;
   address.sin_port = htons(kPort);
   // Bind the socket to the network address and port
-  if (bind(my_sock, (sockaddr *)&address, sizeof(address)) < 0) {
+  if (bind(my_sock, (sockaddr *)&address, sizeof(address)) < 0)
+  {
     std::cerr << "bind failed\n";
     return -1;
   }
   // Start listening for incoming connections
-  if (listen(my_sock, 3) < 0) {
+  if (listen(my_sock, 3) < 0)
+  {
     std::cerr << "listen failed\n";
     return -1;
   }
   std::cout << "Server listening on port " << kPort << "\n";
   // Accept incoming connection
   int new_sock;
-  while (true) {
+  while (true)
+  {
     new_sock = accept(my_sock, (struct sockaddr *)&address, &addrlen);
-    if (new_sock < 0) {
+    if (new_sock < 0)
+    {
       std::cerr << "accept error\n";
       return -1;
     }
