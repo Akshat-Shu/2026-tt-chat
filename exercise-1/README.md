@@ -196,3 +196,20 @@ int my_sock = socket(res->ai_family,
 ## Learn Basics of Creating a C++ Project in Your IDE
 
 - How do you compile and run your project in your IDE?
+
+### Answers
+- In VS Code, the C++ Extension Pack provides a convenient way to compile and run a single file.
+- VS Code also provides a way to create a `tasks.json` file which can be used to define custom build tasks, and a `launch.json` file which can be used to define custom debug configurations. The tasks can be accessed by using `Ctrl + Shift + B` and `F5` for debug configurations. We can also use Makefiles to build the project by defining a task that runs `make` command.
+
+## Improving Interactions with LLMs
+
+- What is the most authoritative source of information about `socket()`
+  from `<sys/socket.h>`?
+- What is the most authoritative source of information about the TCP and IP
+  protocols?
+- What is the most authoritative source of information about the C++
+  programming language?
+- What information can you find about using Markdown when structuring prompts 
+  to LLMs?
+- What is the difference between LLM and AI?
+- Is it grammatically correct in English to say "a LLM" or "an LLM"? Why?
