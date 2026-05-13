@@ -61,6 +61,10 @@ void send_and_receive_message(int sock, const std::string &message) {
 }
 
 // #Question - what can be improved in this function?
+// #Answer   - Instead of exiting the program, we should throw a runtime error 
+// instead so that any caller of the function can decide how to handle the error
+// Also, instead of just using the first argument for the message, we can 
+// concatenate all of the arguments to for the message.
 std::string read_args(int argc, char *argv[]) {
   std::string message = "Hello from client";
   if (argc == 1) {
