@@ -83,7 +83,7 @@ g++ src/tcp_echo_server.cc -o tcp_echo_server
 
 - For debug builds, I would use -g flag to include debug symbols and I would avoid using -O flag to disable optimization. For release builds, I would use -O2 or -O3 for optimization.
 
-- I didn't know this up-front after reading about g++, but I looked into it, the other common build types that I found were the Minimum Size Relese (-Os) which optimizes for size and the Release with Debug Info (-Og) which is a compromise between debug and release builds, it includes debug symbols and it also does some optimization but not as much as the release build.
+- I didn't know this up-front after reading about g++, but I looked into it, the other common build types that I found were the Minimum Size Release (-Os) which optimizes for size and the Release with Debug Info (-Og) which is a compromise between debug and release builds, it includes debug symbols and it also does some optimization but not as much as the release build.
 
 
 ## Learn Basics of Make
