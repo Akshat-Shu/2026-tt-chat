@@ -1,0 +1,9 @@
+EXECS = tcp_echo_client tcp_echo_server
+
+all: $(EXECS)
+
+$(EXECS): %: src/%.cc
+	g++ -o $@ $<
+
+clean:
+	rm -f $(EXECS)

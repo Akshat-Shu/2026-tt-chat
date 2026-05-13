@@ -13,12 +13,31 @@ Before you scroll down to the questions, try this:
    order, and how would you know when you've understood something well enough?
    Write that plan down in this README, then actually follow it.
 
-2. **Now go through the questions below and answer them like you're an LLM.**
+### Answer
+
+- I feel that there are two ways to go around learning things. One is to just go ahead with trying complete the task and learn things as you go experimenting with the different features, the other is to first read up on documentation and try to understand the concepts before trying to implement them.
+
+- When time is limited, it is often better to go with the second approach.
+
+- If the thing I'm learning about is a linux command, the man page is often enough to get me started and then I can experiment with the particular use case that I have in mind.
+
+- Otherwise, googling for examples and documentation is wnat works for me. Often, I find official documentation where I can find quickstart guides and examples, but when that is not the case, I look for Stack Overflow and blog posts from reputable sources or just look through the most relevant topics in the documentation.
+
+- Googling also reveals good YouTube videos that explain the concepts in a more intuitive way. For example, watching CppCon videos on a particular concept is often a better than starting with the CppReference documentation.
+
+- For me, what classifies as well enough understanding is when I feel confident enough to explain the concept to someone else and I can apply it to solve a problem that I have in mind.
+
+- After I have a well enough understanding of the tool, I should be able to explain the usefulness of the tool and how it works at a high level, as well as some of the details of how to modify it with flags and arguments to achieve a particular goal.
+
+- After I have a good understanding of the concepts, in order to know about some specific syntax, it is better to ask ChatGPT as compared to finding it in the documentation.
+
+
+1. **Now go through the questions below and answer them like you're an LLM.**
    No live Googling, no Stack Overflow, no asking ChatGPT mid-question. You may
    refer to notes *you* took during step 1 — that's your context window. Answer
    from what you've internalised.
 
-3. **Reflect on how it went.** Honestly:
+2. **Reflect on how it went.** Honestly:
    - Did your self-directed learning actually prepare you for the questions, or
      did you over-study things that never came up?
    - Which questions blindsided you? Why — was the topic missing from your
@@ -50,6 +69,23 @@ close it.
 - What about for release?
 - What other kinds of build types are useful?
 
+### Answers
+- Compile using
+```bash
+g++ src/tcp_echo_client.cc -o tcp_echo_client
+g++ src/tcp_echo_server.cc -o tcp_echo_server
+```
+- Most important flags for g++ are -o for specifying the output file, -g for including debug symbols, -O for optimization level, -I for specifying inclusion path, and -W... for enabling warnings. Most often, unless we are doing something very specific, these flags are enough for most use cases.
+
+- Debug builds of executables include debug symbols and they are not optimized, commands in the executable are not rearranged for performance. Release builds are optimized for performance and they do not include debug symbols.
+
+- Debug symbols allow us to use gdb to debug the executable line by line but they also make the executable larger and slower. Optimization makes the executable faster but it also makes debugging harder because the commands are rearranged and some of them might be removed if they are not used.
+
+- For debug builds, I would use -g flag to include debug symbols and I would avoid using -O flag to disable optimization. For release builds, I would use -O2 or -O3 for optimization.
+
+- I didn't know this up-front after reading about g++, but I looked into it, the other common build types that I found were the Minimum Size Relese (-Os) which optimizes for size and the Release with Debug Info (-Og) which is a compromise between debug and release builds, it includes debug symbols and it also does some optimization but not as much as the release build.
+
+
 ## Learn Basics of Make
 
 - Create a Makefile that will speed up the process.
@@ -67,6 +103,16 @@ close it.
 - What are the most important directives to learn about in Makefile?
 - What are the most important commands to implement in your Makefile?
 - Which ones are essential, which ones are nice to haves?
+
+### Answers
+- Besides this quickstart tutorial, the official [GNU Make manual](https://www.gnu.org/software/make/manual/make.html) is a good resource to look at all of the features of Make.
+- The official documentation always provides correct information, it is the most authoritative source of information about a tool. Besides the official documentation, to verify credibility of a resource, it might be helpful to check the author's credentials as well as to verify if the information is up-to-date and if it is consistent with other reputable sources.
+- Make uses the latest modification timestamp of targets and their dependencies to determine if a target needs to be rebuilt. If any of the dependencies of a target have been modified more recently than the target itself, then make will rebuild that target.
+- Some of the important command line arguments for make are -f for specifying which file to use, -n for a Dry Run which just prints the commands that would be executed without actually executing them, -i for ignoring errors during execution and -s for silent mode which suppresses the output of the commands being executed.
+- I only knew about the include directive in Makefiles. After looking into it, I found out that there are also other important directives such as define for defining variables which may be multi-line, ifeq/ifdef for conditional statements dependent on variables, and foreach for iterating over lists of items.
+
+- The most important targets in any makefile are the `all` target which is usually placed at the top of the Makefile and it is the default target that gets executed when you run `make` with no arguments, and the `clean` target which is used to remove any files that were generated during the build process. Besides these two targets, it is also common to have a `test` target for running tests and a `install` target for installing the built executables.
+- The `all` and `clean` targets are essential for any Makefile, while the `test` and `install` targets are nice to have but they are not necessary for every project.
 
 ## Learn Basics of Git
 
