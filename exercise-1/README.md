@@ -125,6 +125,11 @@ g++ src/tcp_echo_server.cc -o tcp_echo_server
   everything is working?
 - What are the most important commands to know in git?
 
+### Answers
+- Commits should be focused on a single task or question because it makes it easier to understand which commit introduced a particular change, it also makes it easier to revert changes if something goes wrong.
+- It is generally better to have a lot of small commits rather than one big commit when everything is working. Small commits make it easier for other developers to review the changes and understand which specific change introduced a particular bug or feature.
+- The most important `git` commands that I use regularly are `git add` for staging changes, `git commit` for committing staged changes, `git push` for pushing commits to a remote repository, `git pull` for pulling changes from a remote repository,`git status` for checking the status of the working directory and staging area, `git merge` for merging branches, `git branch` for managing branches, `git checkout` for switching between branches and `git log` for viewing the commit history.
+
 ## Introduction to Sockets
 
 - Read the code in `src/tcp-echo-client.cc` and add a way to change the 
