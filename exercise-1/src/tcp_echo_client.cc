@@ -8,6 +8,9 @@
 
 int main() {
   // #Question - are these the same type?
+  // #Answer - No, message is a std::string which is a C++ 
+  // string class but "Hello from client" is a string literal 
+  // which is a constant character array.
   std::string message = "Hello from client";
   const int kPort = 8080;
   const std::string kServerAddress = "127.0.0.1";
