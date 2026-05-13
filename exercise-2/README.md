@@ -38,11 +38,26 @@
 - Where do you find the spec for the HTTP protocol?
 - What about HTTPS? Is there a spec for that protocol?
 
+#### Answers
+- The link above is not the official C++23 spec, The actual C++23 spec is 2104 pages long and is not freely available. I found a purchase link [Here](https://www.iso.org/standard/83626.html)
+- This link is a public working draft of the C++23 specification, it is not the final version but it is the most up-to-date version that is freely available. It is the draft version of what became the final C++23 standard.
+- The standard is one of the most authoritative references for learning C++, but it is not easy for beginners to go through the entire standard, If someone has a specific question about a particular feature, it is easy to look it up in the standard, but CppReference is a more user-friendly reference for learning C++ as it provides explanations and examples for each feature.
+- All of the C++ compilers implement the C++ standard, but none of them are identical. The C++ standard defines the rules and the compiler is the implementation of those rules. Compilers may differ because of incomplete implementation of the standard, or because of extensions that they provide beyond the standard. They may also differ in terms of implementation-defined behaviour, which is behaviour that is not standard-defined.
+- The most widely used and significant C++ compilers are:
+  - GCC (GNU Compiler Collection)
+  - Clang (LLVM-based compiler)
+  - MSVC (Microsoft Visual C++)
+- I found the Equivalent spec for C++26 [Here](https://isocpp.org/files/papers/N5032.pdf)
+- [Here](https://datatracker.ietf.org/doc/html/rfc9110) is the spec for HTTP Protocol. 
+- HTTPS is HTTP over TLS, [Here](https://datatracker.ietf.org/doc/html/rfc2818) is a spec I found for HTTPS.
+
+
 ## Introduction to C++ and Sockets Programming
 
 - Read the code in `src/`
 - Are there any bugs in this code? 
 - What can you do to identify if there are bugs in the code?
+
 
 ## Refactoring: Extract Function
 
