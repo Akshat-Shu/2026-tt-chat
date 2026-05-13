@@ -51,6 +51,16 @@ The point of this exercise isn't to get the questions "right" — it's to notice
 the gap between how you *think* you learn and how you actually do, so you can
 close it.
 
+### Answers
+- Most of the questions which dealt with basic concepts, I was able to answer myself, but for some of the questions which required specific knowledge, I had to look up the information. For example, I didn't know about the other kind of build types other than debug and release builds. I'll admit that I actually did over-study some things that actually never came up, for example, I spent some time learning about recursive and simply expanded variables in Makefiles, which didn't come up in the questions. What actually did come up while writing Makefiles as the use of `|` to specify order-only dependencies, which I didn't know about before.
+- Some of the questions that blindsided me were:
+  - Build types in `g++` other than debug and release builds. I had an idea only about these two build types, but I didn't know that there are other build types such Minimum Size Release and Release with Debug Info.
+  - The use of `getaddrinfo()` for connecting by hostname instead of IP address. I didn't know about the function before, I hadn't considered the possibility of connecting by hostname instead of IP address, and I didn't know how to do it until I looked it up.
+  - The use of `|` for order-only dependencies in Makefiles. I had no idea about this feature of Makefiles until I looked it up while writing the Makefile for this project.
+  - The most authoritative sources of information about TCP/IP protocols. I had no clue where to look for this information until I looked it up, and I found out that the most authoritative sources are the RFCs published by IETF.
+- The unknown unknowns for me were topics that I mentioned above. I could have surfaced them earlier if I had judged better about when I have studied a topic well enough as I feel that the topics I had missed out on were a bit more specific and detailed, so I didn't feel the need to dive into them. This is also one of the aspects that blog posts let you down on as they provide readers with a good starting point but they don't always cover all the details and edge cases, so it is often necessary to look into the official documentation to understand the nooks and crannies of a topic/tool.
+
+
 ## Learning How to Learn
 
 - Answer the following questions in this file and commit and push your changes.
