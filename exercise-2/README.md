@@ -58,6 +58,11 @@
 - Are there any bugs in this code? 
 - What can you do to identify if there are bugs in the code?
 
+### Answers
+- One bug I noticed is that when reading the message from server, if we read exactly `kBufferSize` bytes, we won't have space for the null terminator, which can lead to undefined behaviour when we try to print the message. To fix this, we can read at most `kBufferSize - 1` bytes and then add a null terminator at the end of the buffer.
+- Another issue I notice is that the functions call exit when an error occurs, which is not ideal as it doesn't allow the caller of the function to handle the error in a way that makes sense for their use case. Instead of calling exit, we can throw a runtime error with a descriptive message, which allows the caller to catch the exception and decide how to handle it.
+- In order to identify bugs, we can write Unit tests for the functions, we can also use a debugger to step through the code and inspect the values of variables at runtime to see if they are what we expect. We can also use static analysis tools to analyze the code for potential bugs and issues.
+- We can also use profiling tools and memory analysis tools like Valgrind and Gprof to identify performance issues and memory leaks/illegal memory access in our code.
 
 ## Refactoring: Extract Function
 
