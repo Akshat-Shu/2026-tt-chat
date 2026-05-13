@@ -139,6 +139,34 @@ g++ src/tcp_echo_server.cc -o tcp_echo_server
 - How do you change the code to send to a IPv6 address instead of IPv4?
 - **Bonus**: How do you change the client code to connect by hostname instead
   of IP address?
+
+### Answers
+- <arpa/inet.h> provides definitions for useful functions for transforming IP addresses, such as inet_pton which converts an IP address in string format to binary format.
+- <netinet/in.h> provides definitions for internet protocol, like sockaddr_in which is a structure that contains information about an internet address. It also has definitions for functions like htons which converts a port number from host byte order to network byte order.
+- <sys/socket.h> is the Unix header that provides definitions for socket functions and structures, such as the socket function which creates a new socket, the connect function which connects a socket to a remote address, the send and recv functions for sending and receiving data through a socket, the accept function for accepting incoming connections on a server socket, and the bind function for binding a socket to a local address and port.
+- <sys/types.h> is just used for defining some data types that are used in the other headers, such as ssize_t which is used for representing the number of bytes sent or received through a socket.
+- <unistd.h> provides access to the POSIX operating system API, it includes definitions for functions like close which is used to close a socket file descriptor.
+- To find out which functions comes from which header, I usually just use CTRL + Click on the function name in my IDE and it takes me to the header file where that function is defined.
+- To send messages to servers other than localhost, we can change the IP address in the code (`kServerAddress`) to the IP address of the server we want to connect to. We can also modify the code to take the server address as a command line argument.
+- To change the code to send to an IPv6 address, we need to change the socket family from `AF_INET` to `AF_INET6`, and we also need to change the `sockaddr_in` structure to `sockaddr_in6` which is used for IPv6 addresses.
+- I didn't know this off the top of my head after reading about sockets, but I looked into it, I found that in order to connect by hostname instead of by raw IP address, `getaddrinfo()` can be used instead of `inet_pton()`. `getaddrinfo()` resolves a hostname like `example.com` into one or more socket addresses, so the client can work with whichever address family the hostname supports. **Example**:
+```cpp
+struct addrinfo hints{}, *res;
+hints.ai_family = AF_UNSPEC;
+hints.ai_socktype = SOCK_STREAM;
+
+int err = getaddrinfo(kServerAddress.c_str(),
+                      std::to_string(kPort).c_str(),
+                      &hints,
+                      &res);
+
+if (err != 0)
+    return -1; // ERROR
+
+int my_sock = socket(res->ai_family,
+                     res->ai_socktype,
+                     res->ai_protocol);
+```
   
 ## Introduction to Memory Management
 
@@ -157,16 +185,3 @@ g++ src/tcp_echo_server.cc -o tcp_echo_server
 ## Learn Basics of Creating a C++ Project in Your IDE
 
 - How do you compile and run your project in your IDE?
-
-## Improving Interactions with LLMs
-
-- What is the most authoritative source of information about `socket()`
-  from `<sys/socket.h>`?
-- What is the most authoritative source of information about the TCP and IP
-  protocols?
-- What is the most authoritative source of information about the C++
-  programming language?
-- What information can you find about using Markdown when structuring prompts 
-  to LLMs?
-- What is the difference between LLM and AI?
-- Is it grammatically correct in English to say "a LLM" or "an LLM"? Why?
