@@ -70,6 +70,14 @@
 - Is this code better or worse than exercise-1?
 - What are the tradeoffs compared to exercise-1?
 - Are you able to spot any mistakes or inconsistencies in the changes?
+### Answers
+- By using a lot of functions with descriptive names, the code is more modular. This also makes it easier to read and understand the code. Moreover, by using functions, we can abstract away the acutual implementation details of how the function acomplishes it's task, If we need to change the implementation of a function, we can do so without affecting the rest of the code that uses that function. For example, in `set_binary_address` function in `tcp_echo_client.cpp`, we can instead use `getaddrinfo()` to set the address using the hostname.
+- The code is definitely organized in a better fashion as compared to exercise-1 in terms of readability and maintainability. The intent of each part of the code is much more clearer. Each function has a single responsibility, and the main function is much more concise and easier to understand.
+- When using functions, there is some overhead associated with function calls, which can impact performance. However, the benefits of improved readability and maintainability often outweigh the performance costs. Additionally, modern compilers are very good at optimizing function calls, so the performance impact may be negligible in many cases.
+- We also have to type more code to define the functions and call them, which can make the code longer. However, this is often an acceptable tradeoff for the improved readability and maintainability of the code.
+- One of the issues is in the function `read_args`, if the user does not provide any arguments, the function does not use the default initialized value of message, It instead prints the usage message and exits the program.
+- Another change that I noticed was that in the function `handle_accept`, the code has been modified to handle all cases based on sign of the return value of `read()`, which eliminates the implicit conversion issue that we faced earlier.
+- In Exercise-1, the same buffer was being used for every read operation, However, in Exercise-2, we are using a new buffer for each read operation and initializing it to zero before each read, which can help prevent issues with leftover data from previous reads.
   
 ## Thinking About Performance
 

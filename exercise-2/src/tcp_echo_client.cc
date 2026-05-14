@@ -70,6 +70,9 @@ void send_and_receive_message(int sock, const std::string &message) {
 // concatenate all of the arguments to for the message.
 // We can also improve the function name to be more descriptive, 
 // for example, we can name it read_message_from_args.
+// There is also a bug in this function, if the user does not provide any arguments,
+// the function does not use the default initialized value of message, It instead
+// prints the usage message and exits the program.
 std::string read_args(int argc, char *argv[]) {
   std::string message = "Hello from client";
   if (argc == 1) {
