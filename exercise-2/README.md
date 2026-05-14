@@ -114,6 +114,18 @@
 - In debug mode, how do you add a breakpoint?
 - In debug mode, how do you step through code?
 
+### Answers
+- I am using VS Code. I found this helpful [Youtube Video](https://www.youtube.com/watch?v=G9gnSGKYIg4) that explains how to use the debugger for C++ in VS Code. To enable debug mode, we need to create a launch configuration in the `launch.json` file. We can do this by going to the Debug view and clicking on the gear icon to open the `launch.json` file. Then we can add a new configuration for C++ debugging.
+- To start debugging, we can go to the Run and Debug view and select the configuration we need. Then, we can press `F5` to start debugging.
+- Once we are in debug mode, to add a watch to a variable, we can right click on the variable in the `Locals` tab and select `Add to Watch`. This will add the variable to the `Watch` tab where we can see its value and how it changes as we step through the code.
+- To add a breakpoint at a line, we can just click on the red dot on the left side of the line number in the editor. So the execution will pause when it reaches that line.
+- To step through code, we can use the following commands:
+  - `F5` to continue running the code until the next breakpoint is hit or the program finishes execution
+  - `F10` to step over a line of code (execute the line without stepping into any function calls)
+  - `F11` to step into a function call (if the line contains a function call, it will step into that function)
+  - `Shift + F11` to step out of the current function (if we are inside a function, it will execute the rest of the function and return to the caller)
+- These are also available as buttons in the debug toolbar in the IDE.
+
 ### Memory Management and Debug Mode in Your IDE
 
 - How do you see the memory layout of a `std::string` from your IDE debug mode?
