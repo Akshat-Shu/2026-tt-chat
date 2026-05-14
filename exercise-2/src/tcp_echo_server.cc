@@ -78,6 +78,13 @@ void handle_connections(int sock, int port) {
   socklen_t address_size = sizeof(address);
 
   // #Question - is it good to have an infinite loop?
+  // An infinite while loop with no break statements inside it's body
+  // is certainly not the best design choice. However, in this case, 
+  // it is acceptable because we want the server to run indefinitely.
+  // But, since the while loop is infinite, the only way to stop the
+  // server is to kill the process, which is not ideal. We can improve
+  // the design by some kind of signal in the condition for the while loop,
+  // so that we can gracefully shut down the server when needed.
   while (true) {
     int accepted_socket = accept(sock, (sockaddr *)&address, &address_size);
     if (accepted_socket < 0) {
