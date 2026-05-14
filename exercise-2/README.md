@@ -86,6 +86,11 @@
 - What do we mean when we say performance?
 - How do we measure performance in a program?
 
+### Answers
+- Writing code in a more modular way using functions can have some impact on performance due to the overhead of function calls. But, some modern compilers can optimize function calls and make the performance impact negligible in many cases. Additionally, we can also `inline` small functions to reduce the overhead of function calls.
+- When we say performance, we usually consider factors such as execution time and memory usage. We say that the performance of a program is better as compared to another if it uses less resources to accomplish the same task. Performance can also include considering factors like responsiveness and scalability.
+- We can measure performance in a program using various tools and techniques. For execution time, we can use profiling tools like Gprof. For memory usage, we can use tools like Valgrind. We can also use built-in functions like `std::chrono` in C++ to measure the execution time of specific sections of code. Additionally, we can also use benchmarking frameworks to compare the performance of different implementations of a function or algorithm.
+
 ## Play with Git
 
 - There isn't necessarily a single correct answer for how to abstract the 
