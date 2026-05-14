@@ -78,6 +78,7 @@
 - One of the issues is in the function `read_args`, if the user does not provide any arguments, the function does not use the default initialized value of message, It instead prints the usage message and exits the program.
 - Another change that I noticed was that in the function `handle_accept`, the code has been modified to handle all cases based on sign of the return value of `read()`, which eliminates the implicit conversion issue that we faced earlier.
 - In Exercise-1, the same buffer was being used for every read operation, However, in Exercise-2, we are using a new buffer for each read operation and initializing it to zero before each read, which can help prevent issues with leftover data from previous reads.
+- Exercise-2 handles file descriptors in a better manner by closing them whenever an error occurs or when they are no longer needed, which can help prevent resource leaks.
   
 ## Thinking About Performance
 
