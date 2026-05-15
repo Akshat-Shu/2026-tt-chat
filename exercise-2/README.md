@@ -106,6 +106,7 @@
 ### Answers
 - `git tag` is a reference to a specific commit, it is often used to mark release versions or important milestones in a project but a tag does not move forward with new commits. On the other hand, `git branch` creates a branch which is a seperate line of active development, it moves forward with new commits.
 - When working in a team, it becomes increasingly important to use branches so that everyone can work on their own features without affecting the main codebase. We can use branches to develop new features, fix bugs, or experiment with new ideas without affecting the main codebase. Once the work on a branch is complete and tested, we can merge it back into the main branch. Tags can be used to mark specific commits as release versions, which can be helpful for tracking changes and rolling back to previous versions if necessary.
+- You can view the refactored code inside the `refactor/` directory.
 
 ## Learn Basics of Debugging in Your IDE
 
