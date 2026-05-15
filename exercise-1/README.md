@@ -69,6 +69,10 @@ close it.
 - How can you tell if the source of your information is good?
 - How would you define "good" in this situation?
 
+### Answers
+- Usually, resources like documentation and blog pages as well ad youtube videos found on google are good ways to learn about the basics of a tool/topic. For more specific questions, Stack Overflow is a good resource where many people have faced the same issue and found a solution.
+- "good" in this situation would mean that the source provides accurate and up-to-date information, it is easy to understand and follow, and it provides examples that are relevant to the task at hand. The source should also be from a reputable author or organization, and it should be consistent with other reputable sources.
+
 ## Learn Basics of g++ CLI
 
 - Compile the TCP client and server using `g++` from command line.
@@ -230,7 +234,7 @@ int my_sock = socket(res->ai_family,
 - Is it grammatically correct in English to say "a LLM" or "an LLM"? Why?
 
 ### Answers
-- for most system calls, the `man` pages are the most authoritative source of information. For `socket()`, we can run `man socket` to get it's manual page.
+- for most system calls, the `man` pages are the most authoritative source of information. For `socket()`, we can run `man socket` to get its manual page.
 - I didn't know this off the top of my head, but after looking into it, I found that IETF (Internet Engineering Task Force) is the organization that develops Internet standards, the most authorative sources of information about the protocols are their RFCs (Request for Comments) which are the documents that describe the specifications and standards for the protocols. We can look at RFC 793 for TCP and RFC 791 for IP. After a quick Google Search, the first result that comes up is the [GeeksforGeeks page](https://www.geeksforgeeks.org/computer-networks/tcp-ip-model/) which gives a good starting point for understanding as compared to the actual RFCs which are enormous and not very beginner-friendly.
 - The most authoritative source about the C++ according to me is [CppReference](https://www.cppreference.com), it provides documentation and examples about all the features of C++ and it's standard library. The official C++ standard documents are also authoritative but they are not very beginner-friendly.
 - LLMs are often trained on structured text data, so using Markdown can help to structure the prompt in a way that is more easily understood by the model. For example, using headings to specify the Role, Task, Context, Examples and Instructions can guide the model to produce the desired output. Using bullet points can also help to break down the information into smaller chunks which are easier to process. Also, using code blocks can help the model differentiate between code and regular text, which can be useful when asking for code generation or explanations of code.
