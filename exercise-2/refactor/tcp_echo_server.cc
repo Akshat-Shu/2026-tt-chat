@@ -96,7 +96,9 @@ int setup_listen(int sock, int backlog)
 void handle_client(int client_socket)
 {
     char buffer[kBufferSize] = {0};
-    ssize_t read_size = read(client_socket, buffer, kBufferSize);
+    ssize_t read_size = read(client_socket, buffer, kBufferSize - 1);
+    if (read_size > 0)
+        buffer[read_size] = '\0';
     std::cout << "Received: " << buffer << "\n";
     send(client_socket, buffer, read_size, 0);
     std::cout << "Echo message sent\n";

@@ -71,7 +71,9 @@ void send_and_receive_message(int sock, const std::string &message)
     std::cout << "Sent: " << message << "\n";
 
     char buffer[kBufferSize] = {0};
-    ssize_t read_size = read(sock, buffer, kBufferSize);
+    ssize_t read_size = read(sock, buffer, kBufferSize - 1);
+    if (read_size > 0)
+        buffer[read_size] = '\0';
     std::cout << "Received: " << buffer << "\n";
 }
 
