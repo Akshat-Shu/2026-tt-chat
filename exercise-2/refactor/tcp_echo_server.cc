@@ -1,5 +1,6 @@
 #include <iostream>
 #include <netinet/in.h>
+#include <stdexcept>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -18,10 +19,7 @@ int create_socket()
 {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0)
-    {
-        std::cerr << "Socket creation error\n";
-        return -1;
-    }
+        throw std::runtime_error("Socket creation error");
     return sock;
 }
 
@@ -35,10 +33,7 @@ int set_socket_options(int sock)
 {
     if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
                    &kSocketOptionValue, sizeof(kSocketOptionValue)))
-    {
-        std::cerr << "setsockopt error\n";
-        return -1;
-    }
+        throw std::runtime_error("setsockopt error");
     return 0;
 }
 
@@ -65,10 +60,7 @@ sockaddr_in create_address(int port)
 int bind_address_to_socket(int sock, const sockaddr_in &address)
 {
     if (bind(sock, (sockaddr *)&address, sizeof(address)) < 0)
-    {
-        std::cerr << "bind failed\n";
-        return -1;
-    }
+        throw std::runtime_error("bind failed");
     return 0;
 }
 
@@ -81,10 +73,7 @@ int bind_address_to_socket(int sock, const sockaddr_in &address)
 int setup_listen(int sock, int backlog)
 {
     if (listen(sock, backlog) < 0)
-    {
-        std::cerr << "listen failed\n";
-        return -1;
-    }
+        throw std::runtime_error("listen failed");
     return 0;
 }
 
@@ -129,32 +118,26 @@ void accept_connections(int server_socket, sockaddr_in &address)
 
 int main()
 {
-    int my_sock = create_socket();
-    if (my_sock < 0)
-        return -1;
-
-    if (set_socket_options(my_sock) < 0)
+    try
     {
+        int my_sock = create_socket();
+
+        set_socket_options(my_sock);
+
+        sockaddr_in address = create_address(kPort);
+
+        bind_address_to_socket(my_sock, address);
+
+        setup_listen(my_sock, kListenBacklog);
+
+        accept_connections(my_sock, address);
+
         close(my_sock);
+        return 0;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error: " << e.what() << "\n";
         return -1;
     }
-
-    sockaddr_in address = create_address(kPort);
-
-    if (bind_address_to_socket(my_sock, address) < 0)
-    {
-        close(my_sock);
-        return -1;
-    }
-
-    if (setup_listen(my_sock, kListenBacklog) < 0)
-    {
-        close(my_sock);
-        return -1;
-    }
-
-    accept_connections(my_sock, address);
-
-    close(my_sock);
-    return 0;
 }

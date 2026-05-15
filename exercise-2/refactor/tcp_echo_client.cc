@@ -1,6 +1,7 @@
 #include <arpa/inet.h>
 #include <iostream>
 #include <netinet/in.h>
+#include <stdexcept>
 #include <string>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -21,18 +22,12 @@ constexpr const char *kDefaultMessage = "Hello from client";
 std::string get_message(int argc, char *argv[])
 {
     if (argv == nullptr)
-    {
-        std::cerr << "Error: argv is null\n";
-        return "";
-    }
+        throw std::runtime_error("argv is null");
 
     if (argc > 1)
     {
         if (argv[1] == nullptr || std::string(argv[1]).empty())
-        {
-            std::cerr << "Error: message argument cannot be empty\n";
-            return "";
-        }
+            throw std::runtime_error("message argument cannot be empty");
         return argv[1];
     }
 
@@ -47,10 +42,7 @@ int create_socket()
 {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0)
-    {
-        std::cerr << "Socket creation error\n";
-        return -1;
-    }
+        throw std::runtime_error("Socket creation error");
     return sock;
 }
 
@@ -66,9 +58,7 @@ sockaddr_in create_address(const char *server_address, int port)
     address.sin_family = AF_INET;
     address.sin_port = htons(port);
     if (inet_pton(AF_INET, server_address, &address.sin_addr) <= 0)
-    {
-        std::cerr << "Invalid address/ Address not supported\n";
-    }
+        throw std::runtime_error("Invalid address/ Address not supported");
     return address;
 }
 
@@ -81,10 +71,7 @@ sockaddr_in create_address(const char *server_address, int port)
 int connect_to_server(int sock, const sockaddr_in &address)
 {
     if (connect(sock, (sockaddr *)&address, sizeof(address)) < 0)
-    {
-        std::cerr << "Connection Failed\n";
-        return -1;
-    }
+        throw std::runtime_error("Connection Failed");
     return 0;
 }
 
@@ -107,21 +94,24 @@ void send_and_receive_message(int sock, const std::string &message)
 
 int main(int argc, char *argv[])
 {
-    std::string message = get_message(argc, argv);
-    if (message.empty())
+    try
+    {
+        std::string message = get_message(argc, argv);
+
+        int my_sock = create_socket();
+
+        sockaddr_in address = create_address(kServerAddress, kPort);
+
+        connect_to_server(my_sock, address);
+
+        send_and_receive_message(my_sock, message);
+
+        close(my_sock);
+        return 0;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error: " << e.what() << "\n";
         return -1;
-
-    int my_sock = create_socket();
-    if (my_sock < 0)
-        return -1;
-
-    sockaddr_in address = create_address(kServerAddress, kPort);
-
-    if (connect_to_server(my_sock, address) < 0)
-        return -1;
-
-    send_and_receive_message(my_sock, message);
-
-    close(my_sock);
-    return 0;
+    }
 }
