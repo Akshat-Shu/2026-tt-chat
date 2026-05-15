@@ -10,6 +10,34 @@
 constexpr int kPort = 8080;
 constexpr int kBufferSize = 1024;
 constexpr const char *kServerAddress = "127.0.0.1";
+constexpr const char *kDefaultMessage = "Hello from client";
+
+/**
+ * Validates and returns the message from command line arguments
+ * @param argc Argument count
+ * @param argv Argument vector
+ * @return Validated message string
+ */
+std::string get_message(int argc, char *argv[])
+{
+    if (argv == nullptr)
+    {
+        std::cerr << "Error: argv is null\n";
+        return "";
+    }
+
+    if (argc > 1)
+    {
+        if (argv[1] == nullptr || std::string(argv[1]).empty())
+        {
+            std::cerr << "Error: message argument cannot be empty\n";
+            return "";
+        }
+        return argv[1];
+    }
+
+    return kDefaultMessage;
+}
 
 /**
  * Creates a TCP socket for IPv4 communication
@@ -79,9 +107,9 @@ void send_and_receive_message(int sock, const std::string &message)
 
 int main(int argc, char *argv[])
 {
-    std::string message = "Hello from client";
-    if (argc > 1)
-        message = argv[1];
+    std::string message = get_message(argc, argv);
+    if (message.empty())
+        return -1;
 
     int my_sock = create_socket();
     if (my_sock < 0)
