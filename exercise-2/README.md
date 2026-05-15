@@ -13,7 +13,7 @@
 - Or type `man 7 socket` in terminal
 - When would you want to use a `SOCK_RAW` stream?
 #### Answer
-- According to the man page, `SOCK_RAW` provides raw network protocol access. We may use it when we want to send over some data without any protocol-specific formatting, like when we want to send a custom packet for pinging.
+- According to the man page, `SOCK_RAW` provides raw network protocol access. We may use it when we want to transmit data without any protocol-specific formatting, like when we want to send a custom packet for pinging.
 
 ### TCP and IP Protocols
 - [IPv4](https://www.rfc-editor.org/info/rfc791) - Internet Protocol 
@@ -71,7 +71,7 @@
 - What are the tradeoffs compared to exercise-1?
 - Are you able to spot any mistakes or inconsistencies in the changes?
 ### Answers
-- By using a lot of functions with descriptive names, the code is more modular. This also makes it easier to read and understand the code. Moreover, by using functions, we can abstract away the acutual implementation details of how the function acomplishes it's task, If we need to change the implementation of a function, we can do so without affecting the rest of the code that uses that function. For example, in `set_binary_address` function in `tcp_echo_client.cpp`, we can instead use `getaddrinfo()` to set the address using the hostname.
+- By using a lot of functions with descriptive names, the code is more modular. This also makes it easier to read and understand the code. Moreover, by using functions, we can abstract away the actual implementation details of how the function acomplishes its task, If we need to change the implementation of a function, we can do so without affecting the rest of the code that uses that function. For example, in `set_binary_address` function in `tcp_echo_client.cpp`, we can instead use `getaddrinfo()` to set the address using the hostname.
 - The code is definitely organized in a better fashion as compared to exercise-1 in terms of readability and maintainability. The intent of each part of the code is much more clearer. Each function has a single responsibility, and the main function is much more concise and easier to understand.
 - When using functions, there is some overhead associated with function calls, which can impact performance. However, the benefits of improved readability and maintainability often outweigh the performance costs. Additionally, modern compilers are very good at optimizing function calls, so the performance impact may be negligible in many cases.
 - We also have to type more code to define the functions and call them, which can make the code longer. However, this is often an acceptable tradeoff for the improved readability and maintainability of the code.
@@ -105,7 +105,7 @@
 
 ### Answers
 - `git tag` is a reference to a specific commit, it is often used to mark release versions or important milestones in a project but a tag does not move forward with new commits. On the other hand, `git branch` creates a branch which is a seperate line of active development, it moves forward with new commits.
-- When working in a team, it becomes increasingly more important to use branches so that everyone can work on their own features without affecting the main codebase. We can use branches to develop new features, fix bugs, or experiment with new ideas without affecting the main codebase. Once the work on a branch is complete and tested, we can merge it back into the main branch. Tags can be used to mark specific commits as release versions, which can be helpful for tracking changes and rolling back to previous versions if necessary.
+- When working in a team, it becomes increasingly important to use branches so that everyone can work on their own features without affecting the main codebase. We can use branches to develop new features, fix bugs, or experiment with new ideas without affecting the main codebase. Once the work on a branch is complete and tested, we can merge it back into the main branch. Tags can be used to mark specific commits as release versions, which can be helpful for tracking changes and rolling back to previous versions if necessary.
 
 ## Learn Basics of Debugging in Your IDE
 
@@ -132,7 +132,7 @@
 - How do you see the memory layout of a struct from your IDE debug mode?
 
 ### Answers
-- In VS Code, when we are in debug mode, we can run gdb commands by opening the Debug Console and using `-exec <command>`. To view the memory layout of a particular variable, we can use the command `x/32xb &variable_name` to view the memory layout in bytes. Here, `32` is the number of bytes we want to view, `x` is for hexadecimal format, and `b` is for byte size.
+- In VS Code, when we are in debug mode, we can run gdb commands by opening the Debug Console and using `-exec <command>`. To view the memory layout of a particular variable, we can use the command `x/32xb &variable_name` to view the memory layout in hexadecimal byte format. Here, `32` is the number of bytes we want to view, `x` is for hexadecimal format, and `b` is for byte size.
 - For Example, here is some of my output when debugging the file `testing.cpp`:
 ```
 -exec x/32xb &message
