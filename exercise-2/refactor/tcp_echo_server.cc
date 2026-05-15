@@ -4,57 +4,118 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-// CONSTANTS
+// Constants
 constexpr int kPort = 8080;
 constexpr int kBufferSize = 1024;
+constexpr int kListenBacklog = 3;
+constexpr int kSocketOptionValue = 1;
 
-int main()
+int create_socket()
 {
-    sockaddr_in address;
-    socklen_t addrlen = sizeof(address);
-    char buffer[kBufferSize] = {0};
-    int my_sock;
-    int opt = 1;
-    if ((my_sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock < 0)
     {
         std::cerr << "Socket creation error\n";
         return -1;
     }
-    if (setsockopt(my_sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt,
-                   sizeof(opt)))
+    return sock;
+}
+
+int set_socket_options(int sock)
+{
+    if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
+                   &kSocketOptionValue, sizeof(kSocketOptionValue)))
     {
         std::cerr << "setsockopt error\n";
         return -1;
     }
+    return 0;
+}
+
+sockaddr_in create_address(int port)
+{
+    sockaddr_in address = {};
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(kPort);
-    if (bind(my_sock, (sockaddr *)&address, sizeof(address)) < 0)
+    address.sin_port = htons(port);
+    return address;
+}
+
+int bind_address_to_socket(int sock, const sockaddr_in &address)
+{
+    if (bind(sock, (sockaddr *)&address, sizeof(address)) < 0)
     {
         std::cerr << "bind failed\n";
         return -1;
     }
-    if (listen(my_sock, 3) < 0)
+    return 0;
+}
+
+int setup_listen(int sock, int backlog)
+{
+    if (listen(sock, backlog) < 0)
     {
         std::cerr << "listen failed\n";
         return -1;
     }
+    return 0;
+}
+
+void handle_client(int client_socket)
+{
+    char buffer[kBufferSize] = {0};
+    ssize_t read_size = read(client_socket, buffer, kBufferSize);
+    std::cout << "Received: " << buffer << "\n";
+    send(client_socket, buffer, read_size, 0);
+    std::cout << "Echo message sent\n";
+    close(client_socket);
+}
+
+void accept_connections(int server_socket, sockaddr_in &address)
+{
+    socklen_t addrlen = sizeof(address);
     std::cout << "Server listening on port " << kPort << "\n";
-    int new_sock;
+
     while (true)
     {
-        new_sock = accept(my_sock, (struct sockaddr *)&address, &addrlen);
+        int new_sock = accept(server_socket, (struct sockaddr *)&address, &addrlen);
         if (new_sock < 0)
         {
             std::cerr << "accept error\n";
-            return -1;
+            continue;
         }
-        ssize_t read_size = read(new_sock, buffer, kBufferSize);
-        std::cout << "Received: " << buffer << "\n";
-        send(new_sock, buffer, read_size, 0);
-        std::cout << "Echo message sent" << "\n";
-        close(new_sock);
+        handle_client(new_sock);
     }
+}
+
+int main()
+{
+    int my_sock = create_socket();
+    if (my_sock < 0)
+        return -1;
+
+    if (set_socket_options(my_sock) < 0)
+    {
+        close(my_sock);
+        return -1;
+    }
+
+    sockaddr_in address = create_address(kPort);
+
+    if (bind_address_to_socket(my_sock, address) < 0)
+    {
+        close(my_sock);
+        return -1;
+    }
+
+    if (setup_listen(my_sock, kListenBacklog) < 0)
+    {
+        close(my_sock);
+        return -1;
+    }
+
+    accept_connections(my_sock, address);
+
     close(my_sock);
     return 0;
 }
