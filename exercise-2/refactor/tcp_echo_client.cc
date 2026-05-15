@@ -1,15 +1,8 @@
 #include <arpa/inet.h>
-#include <iostream>
-#include <netinet/in.h>
-#include <stdexcept>
 #include <string>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
+#include "tcp_utils.h"
 
-// Constants
-constexpr int kPort = 8080;
-constexpr int kBufferSize = 1024;
+// CONSTANTS
 constexpr const char *kServerAddress = "127.0.0.1";
 constexpr const char *kDefaultMessage = "Hello from client";
 
@@ -32,18 +25,6 @@ std::string get_message(int argc, char *argv[])
     }
 
     return kDefaultMessage;
-}
-
-/**
- * Creates a TCP socket for IPv4 communication
- * @return Socket file descriptor, or -1 on error
- */
-int create_socket()
-{
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0)
-        throw std::runtime_error("Socket creation error");
-    return sock;
 }
 
 /**

@@ -1,27 +1,8 @@
-#include <iostream>
-#include <netinet/in.h>
-#include <stdexcept>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
+#include "tcp_utils.h"
 
-// Constants
-constexpr int kPort = 8080;
-constexpr int kBufferSize = 1024;
+// CONSTANTS
 constexpr int kListenBacklog = 3;
 constexpr int kSocketOptionValue = 1;
-
-/**
- * Creates a TCP socket for IPv4 communication
- * @return Socket file descriptor, or -1 on error
- */
-int create_socket()
-{
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0)
-        throw std::runtime_error("Socket creation error");
-    return sock;
-}
 
 /**
  * Configures socket options to allow immediate reuse of the port
