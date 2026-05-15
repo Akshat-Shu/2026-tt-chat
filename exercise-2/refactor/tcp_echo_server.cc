@@ -10,6 +10,10 @@ constexpr int kBufferSize = 1024;
 constexpr int kListenBacklog = 3;
 constexpr int kSocketOptionValue = 1;
 
+/**
+ * Creates a TCP socket for IPv4 communication
+ * @return Socket file descriptor, or -1 on error
+ */
 int create_socket()
 {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -21,6 +25,12 @@ int create_socket()
     return sock;
 }
 
+/**
+ * Configures socket options to allow immediate reuse of the port
+ * Useful when restarting the server without waiting for TIME_WAIT
+ * @param sock Socket file descriptor
+ * @return 0 on success, -1 on failure
+ */
 int set_socket_options(int sock)
 {
     if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
@@ -32,6 +42,11 @@ int set_socket_options(int sock)
     return 0;
 }
 
+/**
+ * Creates a sockaddr_in structure for server binding
+ * @param port Port number in host byte order
+ * @return sockaddr_in structure configured for INADDR_ANY
+ */
 sockaddr_in create_address(int port)
 {
     sockaddr_in address = {};
@@ -41,6 +56,12 @@ sockaddr_in create_address(int port)
     return address;
 }
 
+/**
+ * Binds a socket to a local address and port
+ * @param sock Socket file descriptor
+ * @param address Address structure to bind to
+ * @return 0 on success, -1 on failure
+ */
 int bind_address_to_socket(int sock, const sockaddr_in &address)
 {
     if (bind(sock, (sockaddr *)&address, sizeof(address)) < 0)
@@ -51,6 +72,12 @@ int bind_address_to_socket(int sock, const sockaddr_in &address)
     return 0;
 }
 
+/**
+ * Configures socket to listen for incoming connections
+ * @param sock Socket file descriptor
+ * @param backlog Maximum number of pending connections
+ * @return 0 on success, -1 on failure
+ */
 int setup_listen(int sock, int backlog)
 {
     if (listen(sock, backlog) < 0)
@@ -61,6 +88,11 @@ int setup_listen(int sock, int backlog)
     return 0;
 }
 
+/**
+ * Handles a single client connection
+ * Reads a message from the client and echoes it back
+ * @param client_socket Socket file descriptor for the client connection
+ */
 void handle_client(int client_socket)
 {
     char buffer[kBufferSize] = {0};
@@ -71,6 +103,11 @@ void handle_client(int client_socket)
     close(client_socket);
 }
 
+/**
+ * Main server loop: Accepts incoming connections and handles them
+ * @param server_socket Listening socket file descriptor
+ * @param address Address structure for accepting connections
+ */
 void accept_connections(int server_socket, sockaddr_in &address)
 {
     socklen_t addrlen = sizeof(address);

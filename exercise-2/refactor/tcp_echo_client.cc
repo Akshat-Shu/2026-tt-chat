@@ -11,6 +11,10 @@ constexpr int kPort = 8080;
 constexpr int kBufferSize = 1024;
 constexpr const char *kServerAddress = "127.0.0.1";
 
+/**
+ * Creates a TCP socket for IPv4 communication
+ * @return Socket file descriptor, or -1 on error
+ */
 int create_socket()
 {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -22,6 +26,12 @@ int create_socket()
     return sock;
 }
 
+/**
+ * Creates a sockaddr_in structure for server connection
+ * @param server_address IP address as string
+ * @param port Port number in host byte order
+ * @return Configured sockaddr_in structure
+ */
 sockaddr_in create_address(const char *server_address, int port)
 {
     sockaddr_in address = {};
@@ -34,6 +44,12 @@ sockaddr_in create_address(const char *server_address, int port)
     return address;
 }
 
+/**
+ * Connects socket to remote server
+ * @param sock Socket file descriptor
+ * @param address Server address structure
+ * @return 0 on success, -1 on failure
+ */
 int connect_to_server(int sock, const sockaddr_in &address)
 {
     if (connect(sock, (sockaddr *)&address, sizeof(address)) < 0)
@@ -44,6 +60,11 @@ int connect_to_server(int sock, const sockaddr_in &address)
     return 0;
 }
 
+/**
+ * Sends a message to server and receives the echo response
+ * @param sock Connected socket file descriptor
+ * @param message Message to send
+ */
 void send_and_receive_message(int sock, const std::string &message)
 {
     send(sock, message.c_str(), message.size(), 0);
