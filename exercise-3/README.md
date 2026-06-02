@@ -87,14 +87,18 @@ check_error(bool, std::__cxx11::basic_string<char, std::char_traits<char>, std::
 - Make sure you have `-fsanitize=address` in both your `CXX_FLAGS` and 
   `LD_FLAGS` in your Makefile
 - What do `-fsanitize=address`, `CXX_FLAGS` and `LD_FLAGS` mean?
+  - **Answer**: 
+    - `-fsanitize=address` is a compiler flag that enables AddressSanitizer. It is a tool that detects memory errors such as buffer overflows, use-after-free, and memory leaks at runtime.
+    - `CXX_FLAGS` is a variable in the Makefile that contains the flags passed to the C++ compiler when compiling source files. It typically includes flags for optimization, debugging, and warnings.
+    - `LD_FLAGS` is a variable in the Makefile that contains the flags passed to the linker when linking object files into an executable. It can include flags for linking against libraries or enabling certain features during linking.
 - With the new tool of the Compiler Explorer, and keeping in mind what you 
   have learned about how to use debug mode
 - What happens when you look at a `std::string` using the above methods?
-- **Answer**: A std::string object is created from the string literal. For "Socket creation error\n" (22 chars), it does a heap allocation because the string is too large for the small-string optimization buffer. The constructor visible in the assembly is `std::__cxx11::basic_string<char>::basic_string(char const*)` since `std::string` is just an alias for this template specialization.
+  - **Answer**: A std::string object is created from the string literal. For "Socket creation error\n" (22 chars), it does a heap allocation because the string is too large for the small-string optimization buffer. The constructor visible in the assembly is `std::__cxx11::basic_string<char>::basic_string(char const*)` since `std::string` is just an alias for this template specialization.
 - Where is the text in your `std::string`?
   - **Answer**: 
-  - For short strings (<=15 chars on this compiler explorer): inside the `std::string` object itself (SSO).
-  - For `"Socket creation error\n"`: on the heap, with the `std::string` storing a pointer to it.
+    - For short strings (<=15 chars on this compiler explorer): inside the `std::string` object itself (SSO).
+    - For `"Socket creation error\n"`: on the heap, with the `std::string` storing a pointer to it.
 - What is `std::optional`?
   - **Answer**: `std::optional` objects may or may not contain a value. It is a wrapper that can hold either a value of a specified type or no value at all (i.e., it can be "empty"). It provides a way to express optional values without using pointers or dynamic memory allocation.
 - How do you find out the memory layout of a `std::optional`?
