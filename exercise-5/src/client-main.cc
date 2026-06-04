@@ -1,52 +1,43 @@
-#include <arpa/inet.h>
-#include <cstdlib>
 #include <iostream>
-#include <netinet/in.h>
 #include <string>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 #include "net/chat-sockets.h"
-#include "utils.h"
 
-sockaddr_in create_server_address(const std::string &server_ip, int port) {
-  using namespace tt::chat;
-  sockaddr_in address = net::create_address(port);
-  // Convert the server IP address to a binary format
-  auto err_code = inet_pton(AF_INET, server_ip.c_str(), &address.sin_addr);
-  check_error(err_code <= 0, "Invalid address/ Address not supported\n");
-  return address;
-}
+namespace tt::chat::client {
 
-void connect_to_server(int sock, sockaddr_in &server_address) {
-  using namespace tt::chat;
-  auto err_code =
-      connect(sock, (sockaddr *)&server_address, sizeof(server_address));
-  check_error(err_code < 0, "Connection Failed.\n");
-}
+const int kBufferSize = 1024;
 
-void send_and_receive_message(int sock, const std::string &message) {
-  using namespace tt::chat;
-  const int kBufferSize = 1024;
-  char recv_buffer[kBufferSize] = {0};
+class Client {
+  net::Socket socket;
+  net::Address address;
+  char buffer[kBufferSize] = {0};
 
-  // Send the message to the server
-  send(sock, message.c_str(), message.size(), 0);
-  std::cout << "Sent: " << message << "\n";
-
-  // Receive response from the server
-  ssize_t read_size = read(sock, recv_buffer, kBufferSize);
-  check_error(read_size < 0, "Read error.\n");
-  if (read_size > 0) {
-    std::cout << "Received: " << recv_buffer << "\n";
-  } else if (read_size == 0) {
-    std::cout << "Server closed connection.\n";
+  void connect_to_server(const std::string &server_ip) {
+    address.set_ip_address(server_ip);
+    socket.connect_to_address(address);
   }
-}
+
+public:
+  Client(const std::string &server_ip, int port) : address(port) {
+    connect_to_server(server_ip);
+  }
+
+  void send_and_receive_message(const std::string &message) {
+    socket.send(message.size(), message.c_str());
+    std::cout << "Sent: " << message << "\n";
+
+    ssize_t read_size = socket.read(kBufferSize, buffer);
+    if (read_size > 0) {
+      std::cout << "Received: " << buffer << "\n";
+    } else if (read_size == 0) {
+      std::cout << "Server closed connection.\n";
+    }
+  }
+};
+
+} // namespace tt::chat::client
 
 std::string read_args(int argc, char *argv[]) {
-  using namespace tt::chat;
   std::string message = "Hello from client";
   if (argc == 1) {
     std::cout << "Usage: " << argv[0] << " <message>\n";
@@ -64,12 +55,8 @@ int main(int argc, char *argv[]) {
 
   std::string message = read_args(argc, argv);
 
-  int my_socket = tt::chat::net::create_socket();
-  sockaddr_in server_address = create_server_address(kServerAddress, kPort);
-
-  connect_to_server(my_socket, server_address);
-  send_and_receive_message(my_socket, message);
-  close(my_socket);
+  tt::chat::client::Client client(kServerAddress, kPort);
+  client.send_and_receive_message(message);
 
   return 0;
 }
